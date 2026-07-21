@@ -48,7 +48,7 @@ async function serial_close() {
 }
 
 async function serial_connectPort(port, baudRate) {
-    await port.open({ baudrate: baudRate });
+    await port.open({ baudRate: baudRate });
 
     const decoder = new TextDecoderStream();
     const inputDone = port.readable.pipeTo(decoder.writable);

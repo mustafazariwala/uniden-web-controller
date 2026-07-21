@@ -2,40 +2,68 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>Web Demo</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Serial Web Controller</title>
         <link rel="stylesheet" type="text/css" href="site.css" />
         <script defer type="text/javascript" src="serial.js"></script>
         <script defer type="text/javascript" src="site.js"></script>
     </head>
 
     <body>
-        <header>
-            <h2>Uniden Web Demo</h2>
-        </header>
-        <noscript>
-            <p>This site requires Javascript.</p>
-        </noscript>
-        <div class="noserial hidden">
-            <p>This site requires the experimental Web Serial API. Your browser either does not support this, or does not have it enabled.</p>
-        </div>
-        <div class="connect">
-            <form action="#" method="POST" onsubmit="connect(); return false;">
-                <label for="baud">Baud Rate:</label>
-                <select name="baud">
-                    <option value="4800">4800</option>
-                    <option value="9600">9600</option>
-                    <option value="19200">19200</option>
-                    <option value="38400">38400</option>
-                    <option value="57600">57600</option>
-                    <option value="115200">115200</option>
-                </select>
-                <button type="button" onclick="autoDetectBaudRate()">Auto-Detect</button>
-                <input type="submit" value="Connect">
-            </form>
-        </div>
-        <br />
-        <div class="log">
-            <textarea readonly="true" style="min-height:500px; min-width: 500px"></textarea>
-        </div>
+        <main class="app-shell">
+            <header class="app-header">
+                <div>
+                    <p class="eyebrow">Web Serial Controller</p>
+                    <h1>Serial Scanner Console</h1>
+                </div>
+                <div class="status-pill" id="connectionStatus">Disconnected</div>
+            </header>
+
+            <noscript>
+                <p class="alert">This site requires Javascript.</p>
+            </noscript>
+
+            <div class="noserial alert hidden">
+                <p>This browser does not support the experimental Web Serial API.</p>
+            </div>
+
+            <section class="control-panel">
+                <form class="connect" action="#" method="POST" onsubmit="connect(); return false;">
+                    <label for="baud">Baud rate</label>
+                    <select id="baud" name="baud">
+                        <option value="4800">4800</option>
+                        <option value="9600">9600</option>
+                        <option value="19200">19200</option>
+                        <option value="38400">38400</option>
+                        <option value="57600">57600</option>
+                        <option value="115200">115200</option>
+                    </select>
+                    <button type="button" class="secondary" onclick="autoDetectBaudRate()">Auto-detect</button>
+                    <button type="submit" class="primary">Connect</button>
+                </form>
+            </section>
+
+            <section class="workspace">
+                <div class="log-panel">
+                    <div class="panel-heading">
+                        <h2>Session log</h2>
+                        <div class="button-row">
+                            <button type="button" class="ghost" onclick="copyLog()">Copy</button>
+                            <button type="button" class="ghost" onclick="downloadLog()">Download</button>
+                            <button type="button" class="ghost danger" onclick="clearLog()">Clear</button>
+                        </div>
+                    </div>
+                    <textarea id="sessionLog" readonly spellcheck="false"></textarea>
+                </div>
+
+                <aside class="notes-panel">
+                    <div class="panel-heading">
+                        <h2>Operator notes</h2>
+                    </div>
+                    <textarea id="operatorNote" placeholder="Add a timestamped comment to this session..."></textarea>
+                    <button type="button" class="primary full-width" onclick="addOperatorNote()">Add comment</button>
+                </aside>
+            </section>
+        </main>
     </body>
 </html>
